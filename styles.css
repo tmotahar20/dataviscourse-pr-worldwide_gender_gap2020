@@ -2,6 +2,68 @@
     font-family: 'Roboto', sans-serif;
 }
 
+body{
+    margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;
+   background-color: #fff;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: rgb(41, 9, 70);
+}
+
+.topnav a {
+    float: right;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.topnav h1 {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #8f99a8;
+    color: white;
+}
+
+
+.area {
+ fill: lightsteelblue;
+}
+
+.line {
+ fill: none;
+ stroke: #6b18cb;
+ stroke-width: 3px;
+}
+
+.dot {
+ fill:#6b18cb;
+ stroke: #6b18cb;
+ stroke-width: 1.5px;
+}
+
+#linechart{
+   width: 1250px;
+}
+#sunburst{
+    float: left;
+    margin-top: 40px;
+}
 
 /*Element Styling*/
 

@@ -1,10 +1,9 @@
 loadData().then(data => {
 
     
-    this.activeCountry = null;
-    this.activeYear = '2000';
     let that = this;
 
+    let dropdown_data = ["Education(%)" ,"Wages(%)", "Land Ownership(%)"];
     
     function updateCountry() {
 
@@ -19,6 +18,25 @@ loadData().then(data => {
       
     }
 
+    let lineObject = new lineChart(data);
+    lineObject.drawPlot("WLD");
+
+    let select = d3.select('#dropdown')
+    .append('select')
+    .attr('class','select')
+    .on('change',onDropdownChange);
+
+     select
+    .selectAll('option')
+    .data(dropdown_data).enter()
+    .append('option')
+    .text(function (d) { return d; });
+
+    function onDropdownChange() {
+        let current_selection = document.getElementById("rectg").getAttribute("class");
+        lineObject.drawPlot(current_selection);
+    };
+
     
     function updateYear(year) {
 
@@ -26,8 +44,6 @@ loadData().then(data => {
         that.activeYear = year;
        
     }
-   
-
    
     const worldMap = new Map(data, updateCountry);
     
@@ -46,6 +62,8 @@ loadData().then(data => {
 
     });
 
+let sunburstObject = new Sunburst();
+sunburstObject.drawSunburst(lineObject);
     
     document.addEventListener("click", function (e) {
         
@@ -58,7 +76,6 @@ loadData().then(data => {
         else{
             country_id= e.target.id;
         }
-    
 
         if(country_id !='' && group_id.includes(country_id.toLowerCase())){
             that.activeCountry = country_id;
@@ -92,14 +109,19 @@ async function loadFile(file) {
     return data;
 }
 
+
 async function loadData() {
     let pop = await loadFile('data/pop.csv');
     let gdp = await loadFile('data/gdppc.csv');
-    let pur = await loadFile('data/purchase.csv');
+    let literacy_men = await  loadFile('data/literacy_rate_men.csv');
+    let literacy_women = await  loadFile('data/literacy_rate_women.csv');
+
    
     return {
         'population': pop,
         'gdp': gdp,
-        'purchase-decision': pur,
+        'literacy_men': literacy_men,
+        'literacy_women': literacy_women
+
             };
 }

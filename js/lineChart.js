@@ -20,7 +20,7 @@ class lineChart{
 		    height = 500 - margin.top - margin.bottom;
 
 		let x = d3.scaleTime()
-    	.domain([new Date(1970, 0, 1), new Date(2017, 0, 1)])
+    	.domain([new Date(2000, 0, 1), new Date(2017, 0, 1)])
 		    .range([0, width]);
 
 		let y = d3.scaleLinear()
@@ -55,7 +55,7 @@ class lineChart{
 		let country_data = indicatorData_men[index];
 		let plotData = [];
 		let plotDataItem = [];
-		for(let i=1970;i<2020;i++){
+		for(let i=2000;i<2020;i++){
 			let yr_csv = "yr_" + i;
 			let value = country_data[yr_csv];
 			plotDataItem = [];
@@ -93,7 +93,7 @@ class lineChart{
                 let z = d[3];
                 tooltip
                 .style("visibility","visible")
-                .html(country_region+"</br>"+"Year: "+y+"</br>"+d[3]+"%");
+                .html(country_region+"</br>"+"Year: "+y+"</br>" + " Men Literacy: "+ d[3]+ "%");
             })
             .on("mouseout", function(d) {
                 tooltip.style("visibility", "hidden");
@@ -114,7 +114,7 @@ class lineChart{
 		country_data = indicatorData_women[index];
 		plotData = [];
 		plotDataItem = [];
-		for(let i=1970;i<2020;i++){
+		for(let i=2000;i<2020;i++){
 			let yr_csv = "yr_" + i;
 			let value = country_data[yr_csv];
 			plotDataItem = [];
@@ -135,14 +135,14 @@ class lineChart{
 			.append("rect")
 			.attr("class",country_region)
 			.attr("id","rectg")
-			.style("fill","#F7DC6F")
+			.style("fill","steelblue")
 			.on("mouseover",function(d){
                 let x = indicatorData_women[that.nameArray.indexOf(country_region)]["Country_Name"];
                 let y = d[2];
                 let z = d[3];
                 tooltip
                 .style("visibility","visible")
-                .html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>"+d[3]+"%");
+                .html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>" + " Women Literacy: "+d[3]+"%");
             })
             .on("mouseout", function(d) {
                 tooltip.style("visibility", "hidden");

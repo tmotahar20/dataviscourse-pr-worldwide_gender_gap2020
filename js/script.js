@@ -4,6 +4,9 @@ loadData().then(data => {
     let that = this;
 
     let dropdown_data = ["Education(%)" ,"Wages(%)", "Land Ownership(%)"];
+
+    let lineObject = new lineChart(data);
+    lineObject.drawPlot("WLD");
     
     function updateCountry() {
 
@@ -15,11 +18,23 @@ loadData().then(data => {
 
 
         worldMap.updateHighlightClick(countryID);
+        lineObject.drawPlot(countryID);
+        //infoBox.updateTextDescription(countryID.toLowerCase(), that.activeYear);
       
     }
 
-    let lineObject = new lineChart(data);
-    lineObject.drawPlot("WLD");
+    function updateYear(year) {
+
+       
+        that.activeYear = year;
+       
+        // if (that.activeCountry) {
+        //     infoBox.updateTextDescription(that.activeCountry.toLowerCase(), year);
+        // }
+    }
+
+
+    
 
     let select = d3.select('#dropdown')
     .append('select')
@@ -46,6 +61,7 @@ loadData().then(data => {
     }
    
     const worldMap = new Map(data, updateCountry);
+    //const infoBox = new InfoBox(data);
     
     
 
@@ -72,19 +88,24 @@ sunburstObject.drawSunburst(lineObject);
 
         if(e.target.id.includes('.')){
             country_id= e.target.id.split('.')[1];
+            country_name= e.target.id.split('.')[2];
         }
         else{
             country_id= e.target.id;
         }
+         console.log(country_id);
 
         if(country_id !='' && group_id.includes(country_id.toLowerCase())){
             that.activeCountry = country_id;
+           // let country_stat = data.literacy_women.map(d => d.Income_Group);
+             
             updateCountry();
         }
 
         else{
             that.activeCountry= null;
             worldMap.clearHighlight();
+            //infoBox.clearHighlight();
          
         
         }
@@ -121,7 +142,7 @@ async function loadData() {
         'population': pop,
         'gdp': gdp,
         'literacy_men': literacy_men,
-        'literacy_women': literacy_women
+        'literacy_women': literacy_women,
 
             };
 }

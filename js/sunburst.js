@@ -125,7 +125,9 @@ class Sunburst{
           if(class_id != "WORLD"){
 
             if(event.bubbles){          
-                      lineObj.drawPlot(class_id);
+					  lineObj.drawPlot(class_id);
+			console.log(class_id);	  
+		   
               
         }
         } 

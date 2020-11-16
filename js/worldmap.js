@@ -38,7 +38,7 @@ class Map {
                     
                      let nCountry = new CountryData(country.type, country.id, country.properties, country.geometry, this.populationData[index].region);
                      
-                     console.log(nCountry);
+                     //console.log(nCountry);
                    
                      return nCountry;
                  }
@@ -94,25 +94,46 @@ class Map {
     d3.select('#map-chart')
         .append('div').attr('id', 'activeYear-bar');
 
-    this.drawYearBar();
+    //this.drawYearBar();
 
 
     }
 
     updateHighlightClick(activeCountry) {
        
-        this. clearHighlight();
+        this.clearHighlight();
+
+        let div1 = d3.select('#map-chart svg').append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
         
         d3.select('#map-chart svg')
           .select('#' + activeCountry.toUpperCase())
-          .classed('selected-country',true);
+          .classed('selected-country',true)
+          .on("click", function(d) {
+                  div1.transition()
+                   .style("opacity", 1);
+             div1.html(activeCountry.toUpperCase())
+               .style("left", (d3.event.pageX + 10) + "px")
+               .style("top", (d3.event.pageY - 15) + "px");
+            })
+            .on('mouseout', function(d) {
+                 div1.transition()
+                      .style("opacity", 0);
+                  
+              });
+
+
+         
+		
+          //console.log(activeCountry);
 
     }
 
     clearHighlight() {
-        d3.selectAll('#map-chart svg')
-          .selectAll('.countries')
-           .classed('selected-country',false);
+        d3.select('#map-chart svg').selectAll('selected-country').classed('.selected-country', false);
+        //d3.select('#map-chart svg').selectAll('.selected-region').classed('.selected-region', false);
+        //d3.select('#map-chart svg').selectAll('.hidden').classed('hidden', false);
     }
 
     drawYearBar() {
@@ -121,15 +142,26 @@ class Map {
         let that = this;
 
        
-        let yearScale = d3.scaleLinear().domain([1800, 2020]).range([30, 720]);
+        let yearScale = d3.scaleLinear().domain([2000, 2016]).range([30, 700]);
 
         let yearSlider = d3.select('#activeYear-bar')
-            .append('div').classed('slider-wrap', true)
+            .append("div").classed('slider-wrap', true)
             .append('input').classed('slider', true)
             .attr('type', 'range')
             .attr('min', 2000)
             .attr('max', 2016)
             .attr('value', this.activeYear);
+
+            yearSlider.on('input', function () {           
+                console.log("hi");
+                that.activeYear= this.value;
+                sliderText.text(that.activeYear);
+                sliderText.attr('x',yearScale(that.activeYear));   
+                that.updateYear(this.value);
+               
+    
+    
+            });
 
         let sliderLabel = d3.select('.slider-wrap')
             .append('div').classed('slider-label', true)
@@ -138,18 +170,9 @@ class Map {
         let sliderText = sliderLabel.append('text').text(this.activeYear);
 
         sliderText.attr('x', yearScale(this.activeYear));
-        sliderText.attr('y', 25);
+        sliderText.attr('y', 30);
 
-        yearSlider.on('input', function () {
-           
-
-            that.activeYear= this.value;
-            sliderText.text(that.activeYear);
-            sliderText.attr('x',yearScale(that.activeYear));
-
-
-
-        });
+        
 
          yearSlider.on('click',function(){
              d3.event.stopPropagation();

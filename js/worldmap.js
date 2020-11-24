@@ -1,4 +1,5 @@
 
+
 class CountryData {
    
     constructor(type, id, properties, geometry, region) {
@@ -15,81 +16,77 @@ class CountryData {
 class Map {
 
     constructor(data, updateCountry) {
-        this.projection = d3.geoWinkel3().scale(140).translate([365, 225]);
+        this.projection = d3.geoLagrange()
+                            .scale(170)
+                            .translate([365, 225]);
         this.nameArray = data.population.map(d => d.geo.toUpperCase());
         this.populationData = data.population;
         this.updateCountry = updateCountry;
     }
 
     drawMap(world) {
-        
-        
-    let geoData = topojson.feature(world, world.objects.countries);
 
-        
-    let countryArray= geoData.features.map(country =>{
+        let that = this;
+        d3.select('#country-detail').style('opacity', 0);
+        let geojson = topojson.feature(world, world.objects.countries);
 
-      let index=this.nameArray.indexOf(country.id);
-          
-       
+        let countryData = geojson.features.map(d => {
+            let index = this.nameArray.indexOf(d.id);
+            let regiondata = index > -1 ? this.populationData[index].region : 'none';
+            return new CountryData(d.type, d.id, d.properties, d.geometry, regiondata);
+        });
 
-
-        if(index > -1){
-                    
-                     let nCountry = new CountryData(country.type, country.id, country.properties, country.geometry, this.populationData[index].region);
-                     
-                     //console.log(nCountry);
-                   
-                     return nCountry;
-                 }
-                 else {
-
-               
-                 let nCountry = new CountryData(country.type, country.id, country.properties, country.geometry, null);
-            
-                    return nCountry;
-                 }
-                       
-                 });
-
-             
-        
-         let svg = d3.select('#map-chart').append('svg');
-        
-    
         let path = d3.geoPath()
-                     .projection(this.projection);
+            .projection(this.projection);
 
-               
+        let map = d3.select('#map-chart').append('svg');
 
-        svg.selectAll("path")
-            .data(countryArray)
-            .join("path")
-            .attr("d", path)
-            .attr('stroke', '#fff')
-            .attr('class',function (d){
-                return d.region ? d.region: "" })
-            .classed("countries", true)
-            .attr('id', d => d.id);
-            
-           
+        map.append("defs").append("path")
+            .datum({ 'type': "Sphere" })
+            .attr("id", "sphere")
+            .attr("d", path);
 
-      
+        map.append("use")
+            .attr("class", "stroke")
+            .attr("xlink:href", "#sphere");
 
- let graticule = d3.geoGraticule(); 
-          
+        map.append("use")
+            .attr("class", "fill")
+            .attr("xlink:href", "#sphere");
 
-     
-     svg.append('path')
-        .datum(graticule)
-        .attr('class', "graticule")
-        .attr("d", path);
+        let countries = map.selectAll('path')
+            .data(countryData)
+            .enter().append('path')
+            .attr('d', path)
+            .attr('id', (d) => d.id)
+            .attr('class', (d) => d.region)
+            .classed('countries', true);
 
-        svg.append('path')
-        .datum(graticule.outline)
-        .attr('class', "stroke")
-        .attr("d", path);
-       
+
+        countries.on('click', function(d) {
+            let countryID = { id: d.id, region: d.region };
+            that.clearHighlight();
+            that.updateCountry(countryID);
+        });
+
+        // Add graticule to the map
+        let graticule = d3.geoGraticule();
+
+        let grat = map
+            .append('path')
+            .datum(graticule)
+            .classed('graticule', true)
+            .attr('d', path)
+            .attr('fill', 'none');
+
+        map.insert("path", ".graticule")
+            // map.insert("path", '.test')
+            .datum(topojson.mesh(world, world.objects.countries, (a, b) => a !== b))
+            .attr("class", "boundary")
+            .attr("d", path);
+        
+        
+
     
     d3.select('#map-chart')
         .append('div').attr('id', 'activeYear-bar');
@@ -107,22 +104,11 @@ class Map {
         .attr("class", "tooltip")
         .style("opacity", 0);
         
-        d3.select('#map-chart svg')
-          .select('#' + activeCountry.toUpperCase())
-          .classed('selected-country',true)
-          .on("click", function(d) {
-                  div1.transition()
-                   .style("opacity", 1);
-             div1.html(activeCountry.toUpperCase())
-               .style("left", (d3.event.pageX + 10) + "px")
-               .style("top", (d3.event.pageY - 15) + "px");
-            })
-            .on('mouseout', function(d) {
-                 div1.transition()
-                      .style("opacity", 0);
-                  
-              });
-
+        this.clearHighlight();
+        //highlight map
+        let countries = d3.select('#map-chart').selectAll('.countries');
+        let regions = countries.filter(c => c.region === activeCountry.region).classed('selected-region', true);
+        let mapTarget = countries.filter(c => c.id === activeCountry.id).classed('selected-country', true);
 
          
 		

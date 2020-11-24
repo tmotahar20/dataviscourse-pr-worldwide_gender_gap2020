@@ -1,1 +1,0 @@
-# dataviscourse-pr-worldwide_gender_gap2020

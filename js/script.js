@@ -3,7 +3,7 @@ loadData().then(data => {
     
     let that = this;
 
-    let dropdown_data = ["Education(%)" ,"Wages(%)", "Land Ownership(%)"];
+    let dropdown_data = ["Education(%)" ,"Wages(%)", "Labour Force(%)"];
 
     let lineObject = new lineChart(data);
     lineObject.drawPlot("WLD",data);
@@ -11,14 +11,14 @@ loadData().then(data => {
     function updateCountry() {
 
         if(that.activeCountry ==null){
-            return undefined;
+            return "WLD";
         }
 
         let countryID = that.activeCountry;
 
 
         worldMap.updateHighlightClick(countryID);
-        lineObject.drawPlot(countryID);
+        lineObject.drawPlot(countryID,data);
         //infoBox.updateTextDescription(countryID.toLowerCase(), that.activeYear);
       
     }
@@ -128,6 +128,8 @@ async function loadData() {
     let literacy_women = await  loadFile('data/literacy_rate_women.csv');
     let employment_men = await  loadFile('data/men_employment.csv');
     let employment_women = await  loadFile('data/women_employment.csv');
+    let labour_men = await  loadFile('data/labour_men.csv');
+    let labour_women = await  loadFile('data/labour_women.csv');
    
     return {
         'population': pop,
@@ -136,6 +138,8 @@ async function loadData() {
         'literacy_women': literacy_women,
         'employment_men': employment_men,
         'employment_women': employment_women,
+        'labour_men': labour_men,
+        'labour_women': labour_women,
 
             };
 }

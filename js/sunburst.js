@@ -3,7 +3,7 @@ class Sunburst{
 	constructor(){
 	}
 
-	drawSunburst(lineObj){
+	drawSunburst(lineObj,allData){
 
       let that = this;
       this.lineObject = lineObj;
@@ -125,7 +125,7 @@ class Sunburst{
           if(class_id != "WORLD"){
 
             if(event.bubbles){          
-					  lineObj.drawPlot(class_id);
+					  lineObj.drawPlot(class_id,allData);
 			console.log(class_id);	  
 		   
               

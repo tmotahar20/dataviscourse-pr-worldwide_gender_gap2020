@@ -178,8 +178,8 @@ findIndicator(){
 			return "literacy";
 		case "Wages(%)":
 			return "employment";
-		case "Land Ownership(%)":
-			return "indicator3";
+		case "Labour Force(%)":
+			return "labour";
 	}
 }
 }

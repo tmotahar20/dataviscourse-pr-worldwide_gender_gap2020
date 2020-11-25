@@ -6,7 +6,7 @@ loadData().then(data => {
     let dropdown_data = ["Education(%)" ,"Wages(%)", "Land Ownership(%)"];
 
     let lineObject = new lineChart(data);
-    lineObject.drawPlot("WLD");
+    lineObject.drawPlot("WLD",data);
     
     function updateCountry() {
 
@@ -27,10 +27,6 @@ loadData().then(data => {
 
        
         that.activeYear = year;
-       
-        // if (that.activeCountry) {
-        //     infoBox.updateTextDescription(that.activeCountry.toLowerCase(), year);
-        // }
     }
 
 
@@ -49,7 +45,7 @@ loadData().then(data => {
 
     function onDropdownChange() {
         let current_selection = document.getElementById("rectg").getAttribute("class");
-        lineObject.drawPlot(current_selection);
+        lineObject.drawPlot(current_selection,data);
     };
 
     
@@ -68,18 +64,12 @@ loadData().then(data => {
     let group_id = data.gdp.map(d => d.geo);
   
    
-    d3.json('data/world.json').then(mapData => {
-
-                 
-               
+    d3.json('data/world.json').then(mapData => {      
            worldMap.drawMap(mapData);
-           
-           
-
     });
 
 let sunburstObject = new Sunburst();
-sunburstObject.drawSunburst(lineObject);
+sunburstObject.drawSunburst(lineObject,data);
     
     document.addEventListener("click", function (e) {
         
@@ -136,13 +126,16 @@ async function loadData() {
     let gdp = await loadFile('data/gdppc.csv');
     let literacy_men = await  loadFile('data/literacy_rate_men.csv');
     let literacy_women = await  loadFile('data/literacy_rate_women.csv');
-
+    let employment_men = await  loadFile('data/men_employment.csv');
+    let employment_women = await  loadFile('data/women_employment.csv');
    
     return {
         'population': pop,
         'gdp': gdp,
         'literacy_men': literacy_men,
         'literacy_women': literacy_women,
+        'employment_men': employment_men,
+        'employment_women': employment_women,
 
             };
 }

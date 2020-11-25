@@ -1,18 +1,20 @@
 class lineChart{
 
 	constructor(data){
-		this.data = data;
-    this.nameArray = data["literacy_women"].map(d => d.Country_Code);
+	this.data = data;
+	this.nameArray = data["literacy_women"].map(d => d.Country_Code);
     this.nameArrayMale = data["literacy_men"].map(d => d.Country_Code);
 
 	}
 
-	drawPlot(country_region){
+	drawPlot(country_region,data){
 		try{
 		let that = this;
-
-        let indicatorData_women = this.data["literacy_women"];
-        let indicatorData_men = this.data["literacy_men"];
+		let indicatorSelected = this.findIndicator();
+        let indicatorData_women = this.data[indicatorSelected+"_women"];
+		let indicatorData_men = this.data[indicatorSelected+"_men"];
+		this.nameArray = data[indicatorSelected+"_women"].map(d => d.Country_Code);
+        this.nameArrayMale = data[indicatorSelected+"_men"].map(d => d.Country_Code);
         var tooltip = d3.select("#linechart").append("div").attr("class", "tooltip");
 
 		let margin = {top: 40, right: 40, bottom: 40, left: 40},
@@ -93,7 +95,7 @@ class lineChart{
                 let z = d[3];
                 tooltip
                 .style("visibility","visible")
-                .html(country_region+"</br>"+"Year: "+y+"</br>" + " Men Literacy: "+ d[3]+ "%");
+                .html(country_region+"</br>"+"Year: "+y+"</br>" + " Men " + indicatorSelected+": "+ d[3]+ "%");
             })
             .on("mouseout", function(d) {
                 tooltip.style("visibility", "hidden");
@@ -142,7 +144,7 @@ class lineChart{
                 let z = d[3];
                 tooltip
                 .style("visibility","visible")
-                .html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>" + " Women Literacy: "+d[3]+"%");
+                .html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>" + indicatorSelected+" : "+d[3]+"%");
             })
             .on("mouseout", function(d) {
                 tooltip.style("visibility", "hidden");
@@ -151,7 +153,7 @@ class lineChart{
                 tooltip
                 .style("top", (d3.event.pageY - 20) + "px")
                 .style("left", (d3.event.pageX + 10) + "px");
-            })
+            }) 
 			.attr("x",function(d){return d[0]-47;})
             .attr("y",function(d){return d[1]-40;})
 			.attr("width",14)
@@ -161,8 +163,23 @@ class lineChart{
             	else
             		return 420 - d[1]});
 
+
+					
 }//try
 catch(err){}
 	}
 
+
+
+findIndicator(){
+	let selectValue = d3.select('select').property('value');
+	switch(selectValue){
+		case "Education(%)":
+			return "literacy";
+		case "Wages(%)":
+			return "employment";
+		case "Land Ownership(%)":
+			return "indicator3";
+	}
+}
 }

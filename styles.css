@@ -161,7 +161,8 @@ path.hidden {
 }
 
 .countries {
-     fill: #d9d9d9;
+    stroke: #ddd;
+     
     
 }
 
@@ -343,16 +344,26 @@ div.dropdown-wrapper {
 }
 
 
+
 /* slider styling */
+
+.hic_rect{
+
+    display: inline-block;
+    float: left;
+    width: 150px;
+    margin-left: 50px;
+    fill:#B0E0E6;
+}
 
 .slider {
     -webkit-appearance: none;
-    width: 725px;
+    width: 150px;
     height: 15px;
     border-radius: 5px;
     background: #d3d3d3;
     outline: none;
-    opacity: 0.7;
+    opacity: 1;
     -webkit-transition: .2s;
     transition: opacity .2s;
     margin-left: 20px
@@ -381,7 +392,7 @@ div.dropdown-wrapper {
 }
 
 .slider-label svg {
-    width: 750px;
+    width: 150px;
     height: 35px;
 }
 
@@ -392,7 +403,7 @@ div.dropdown-wrapper {
 .slider-wrap {
     display: inline-block;
     float: left;
-    width: 750px;
+    width: 150px;
     margin-left: 50px;
 }
 
@@ -416,21 +427,32 @@ div.tooltip {
     font: 14px sans-serif;
 }
 
+path.selected-country
+ {
+    fill:#4B0082;
+    /*  stroke-width: 1px;*/
+    /* stroke: #000000;
+}
+
+
+
+
+
 
 /* Styling for Counties */
 
-.africa {
-    fill: #FFCA28;
-    /*  stroke-width: 1px;*/
+/*.africa {
+    
+    stroke-width: 1px;
 }
 
 path.africa.selected-country,
 circle.africa.selected-country {
-    fill: #cc9a04;
-    /* stroke: #000000;*/
+    /*fill: #cc9a04;
+    stroke: #000000;
 }
 
-i.africa {
+/*i.africa {
     color: #FFCA28;
 }
 
@@ -439,13 +461,13 @@ i.africa {
 }
 
 path.asia.selected-country,
-circle.asia.selected-country {
-    fill: #2d7aad;
-    /*  stroke-width: 1px;*/
-    /* stroke: #000000;*/
+ {
+  
+     stroke-width: 1px;
+     stroke: #000000;
 }
 
-i.asia {
+/*i.asia {
     color: #2d7aad;
 }
 
@@ -457,7 +479,7 @@ path.americas.selected-country,
 circle.americas.selected-country {
     fill: #aaba18;
     /*  stroke-width: 1px;*/
-    /* stroke: #000000;*/
+    /* stroke: #000000;
 }
 
 i.americas {
@@ -472,12 +494,12 @@ path.europe.selected-country,
 circle.europe.selected-country {
     fill: #7c0238;
     /*  stroke-width: 1px;*/
-    /* stroke: #000000;*/
+    /* stroke: #000000;
 }
 
 i.europe {
     color: #AD1457;
-}
+}*/
 
 .activeYear-background {
     font-size: 80px;

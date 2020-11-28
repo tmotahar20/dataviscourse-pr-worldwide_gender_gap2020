@@ -2,13 +2,14 @@
 
 class CountryData {
    
-    constructor(type, id, properties, geometry, region) {
+    constructor(type, id, properties, geometry, region, income) {
 
         this.type = type;
         this.id = id;
         this.properties = properties;
         this.geometry = geometry;
         this.region = region;
+        this.income=income;
     }
 }
 
@@ -21,6 +22,7 @@ class Map {
                             .translate([365, 225]);
         this.nameArray = data.population.map(d => d.geo.toUpperCase());
         this.populationData = data.population;
+        this.literacy_women= data.literacy_women;
         this.updateCountry = updateCountry;
     }
 
@@ -33,8 +35,14 @@ class Map {
         let countryData = geojson.features.map(d => {
             let index = this.nameArray.indexOf(d.id);
             let regiondata = index > -1 ? this.populationData[index].region : 'none';
-            return new CountryData(d.type, d.id, d.properties, d.geometry, regiondata);
+            let income= index > -1 ? this.literacy_women[index].Income_Code : 'none';
+           
+            
+
+            return new CountryData(d.type, d.id, d.properties, d.geometry, regiondata, income);
         });
+
+        
 
         let path = d3.geoPath()
             .projection(this.projection);
@@ -54,13 +62,34 @@ class Map {
             .attr("class", "fill")
             .attr("xlink:href", "#sphere");
 
+           // console.log(this.literacy_women);
+            //console.log(this.populationData);
+            console.log(countryData);
+
         let countries = map.selectAll('path')
             .data(countryData)
             .enter().append('path')
             .attr('d', path)
             .attr('id', (d) => d.id)
             .attr('class', (d) => d.region)
-            .classed('countries', true);
+            .classed('countries', true)
+            .attr('fill', function(d){
+                console.log(d.income);
+                if(d.income=='HIC') {               
+                return '#B0E0E6';
+                }
+                 else if(d.income=='UMC')
+                 return "#00BFFF";
+                 else if(d.income=='LMC')
+                 return "#1E90FF"; 
+                 else if(d.income=='LIC')
+                 return "#6495ED" ;
+                  
+                 else
+                 return "#DCDCDC";            
+
+            });
+           // 
 
 
         countries.on('click', function(d) {
@@ -89,9 +118,9 @@ class Map {
 
     
     d3.select('#map-chart')
-        .append('div').attr('id', 'activeYear-bar');
+        .append('div').attr('id', 'GDPbar');
 
-    //this.drawYearBar();
+    this.drawBar();
 
 
     }
@@ -104,11 +133,14 @@ class Map {
         .attr("class", "tooltip")
         .style("opacity", 0);
         
-        this.clearHighlight();
-        //highlight map
-        let countries = d3.select('#map-chart').selectAll('.countries');
-        let regions = countries.filter(c => c.region === activeCountry.region).classed('selected-region', true);
-        let mapTarget = countries.filter(c => c.id === activeCountry.id).classed('selected-country', true);
+        d3.select('#map-chart svg')
+        .select('#' + activeCountry.toUpperCase())
+        .classed('selected-country',true);
+
+        
+
+        //displayDetail(activeCountry);
+
 
          
 		
@@ -117,12 +149,26 @@ class Map {
     }
 
     clearHighlight() {
-        d3.select('#map-chart svg').selectAll('selected-country').classed('.selected-country', false);
-        //d3.select('#map-chart svg').selectAll('.selected-region').classed('.selected-region', false);
-        //d3.select('#map-chart svg').selectAll('.hidden').classed('hidden', false);
+        d3.selectAll('#map-chart svg')
+          .selectAll('.countries')
+           .classed('selected-country',false);
+        
     }
 
-    drawYearBar() {
+    displayDetail(d) {
+        d3.select('#map-chart')
+        .html(function() {
+            
+            return `<h4>${d}</h4>
+                <p><span class="stats">Cas confirmés</span> ${d.Confirmed}</p>
+                <p><span class="stats">Décès</span> ${d.Deaths}</p>
+                <p><span class="stats">Rétablissements</span> ${d.Recovered}</p>
+            `;})
+            .style('opacity', 1);
+        }
+
+
+    drawBar() {
 
        
         let that = this;
@@ -130,39 +176,40 @@ class Map {
        
         let yearScale = d3.scaleLinear().domain([2000, 2016]).range([30, 700]);
 
-        let yearSlider = d3.select('#activeYear-bar')
-            .append("div").classed('slider-wrap', true)
-            .append('input').classed('slider', true)
-            .attr('type', 'range')
-            .attr('min', 2000)
-            .attr('max', 2016)
-            .attr('value', this.activeYear);
+        let yearSlider = d3.select('#GDPbar')
+            .append("div")
+            .append("rect")
+            .attr("class", '.hic_rect');
+            //.classed('slider', true)
+            //.attr('type', 'range');
+            //.attr('min',  )
+            //.attr('max', 2016)
+            //.attr('value', this.activeYear);
 
-            yearSlider.on('input', function () {           
-                console.log("hi");
-                that.activeYear= this.value;
-                sliderText.text(that.activeYear);
-                sliderText.attr('x',yearScale(that.activeYear));   
-                that.updateYear(this.value);
+            // yearSlider.on('input', function () {           
+            //     that.activeYear= this.value;
+            //     sliderText.text(that.activeYear);
+            //     sliderText.attr('x',yearScale(that.activeYear));   
+            //     that.updateYear(this.value);
                
     
     
-            });
+           // });
 
-        let sliderLabel = d3.select('.slider-wrap')
-            .append('div').classed('slider-label', true)
-            .append('svg');
+        // let sliderLabel = d3.select('.slider-wrap')
+        //     .append('div').classed('slider-label', true)
+        //     .append('svg');
 
-        let sliderText = sliderLabel.append('text').text(this.activeYear);
+        // let sliderText = sliderLabel.append('text').text(this.activeYear);
 
-        sliderText.attr('x', yearScale(this.activeYear));
-        sliderText.attr('y', 30);
+        // sliderText.attr('x', yearScale(this.activeYear));
+        // sliderText.attr('y', 30);
 
         
 
-         yearSlider.on('click',function(){
-             d3.event.stopPropagation();
-        });
+        //  yearSlider.on('click',function(){
+        //      d3.event.stopPropagation();
+        // });
     }
 
 

@@ -23,12 +23,6 @@ loadData().then(data => {
       
     }
 
-    function updateYear(year) {
-
-       
-        that.activeYear = year;
-    }
-
 
     
 
@@ -142,4 +136,5 @@ async function loadData() {
         'labour_women': labour_women,
 
             };
-}
+        }
+

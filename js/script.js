@@ -3,7 +3,7 @@ loadData().then(data => {
     
     let that = this;
 
-    let dropdown_data = ["Education(%)" ,"Wages(%)", "Labour Force(%)"];
+    let dropdown_data = ["GDP","Education(%)" ,"Wages(%)", "Labour Force(%)"];
 
     let lineObject = new lineChart(data);
     lineObject.drawPlot("WLD",data);
@@ -28,7 +28,7 @@ loadData().then(data => {
 
     let select = d3.select('#dropdown')
     .append('select')
-    .attr('class','select')
+    .attr('Id','select')
     .on('change',onDropdownChange);
 
      select
@@ -38,9 +38,18 @@ loadData().then(data => {
     .text(function (d) { return d; });
 
     function onDropdownChange() {
-        let current_selection = document.getElementById("rectg").getAttribute("class");
+
+        d3.select('#select')
+			.on("change", function () {
+				let sect = document.getElementById("select");
+                let current_selection = sect.options[sect.selectedIndex].value;
+                
+        // let current_selection = document.getElementById("rectg").getAttribute("class");
         lineObject.drawPlot(current_selection,data);
-    };
+    });   
+    }
+
+
 
     
     function updateYear(year) {
@@ -77,7 +86,7 @@ sunburstObject.drawSunburst(lineObject,data);
         else{
             country_id= e.target.id;
         }
-         console.log(country_id);
+         
 
         if(country_id !='' && group_id.includes(country_id.toLowerCase())){
             that.activeCountry = country_id;
@@ -124,6 +133,8 @@ async function loadData() {
     let employment_women = await  loadFile('data/women_employment.csv');
     let labour_men = await  loadFile('data/labour_men.csv');
     let labour_women = await  loadFile('data/labour_women.csv');
+
+    //console.log(employment_women);
    
     return {
         'population': pop,

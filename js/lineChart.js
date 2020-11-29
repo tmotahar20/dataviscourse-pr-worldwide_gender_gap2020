@@ -11,6 +11,7 @@ class lineChart{
 		try{
 		let that = this;
 		let indicatorSelected = this.findIndicator();
+		
         let indicatorData_women = this.data[indicatorSelected+"_women"];
 		let indicatorData_men = this.data[indicatorSelected+"_men"];
 		this.nameArray = data[indicatorSelected+"_women"].map(d => d.Country_Code);

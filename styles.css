@@ -344,6 +344,10 @@ div.dropdown-wrapper {
 }
 
 
+.bc-legend-label {
+    padding: 0 10px;
+}
+
 
 /* slider styling */
 
@@ -429,7 +433,7 @@ div.tooltip {
 
 path.selected-country
  {
-    fill:#4B0082;
+    fill:#636363;
     /*  stroke-width: 1px;*/
     /* stroke: #000000;
 }

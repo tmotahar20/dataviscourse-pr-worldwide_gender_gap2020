@@ -46,6 +46,8 @@ loadData().then(data => {
                 
         // let current_selection = document.getElementById("rectg").getAttribute("class");
         lineObject.drawPlot(current_selection,data);
+        heatmapObject.plotheat_country(data);
+
     });   
     }
 
@@ -71,8 +73,12 @@ loadData().then(data => {
            worldMap.drawMap(mapData);
     });
 
-let sunburstObject = new Sunburst();
-sunburstObject.drawSunburst(lineObject,data);
+      let sunburstObject = new Sunburst();
+    sunburstObject.drawSunburst(lineObject);
+
+    let heatmapObject = new heatmap(data);
+heatmapObject.drawLegend();
+heatmapObject.plotheat_country(data);
     
     document.addEventListener("click", function (e) {
         

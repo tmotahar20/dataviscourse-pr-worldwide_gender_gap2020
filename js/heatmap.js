@@ -187,7 +187,10 @@ class heatmap{
             return "labour";
         }
       }//try
-      catch(err){}
+      
+        catch(err){
+          return "literacy";
+        }
     }
 
 }

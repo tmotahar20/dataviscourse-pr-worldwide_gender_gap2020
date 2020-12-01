@@ -16,39 +16,40 @@ loadData().then(data => {
 
         let countryID = that.activeCountry;
 
-
+        
         worldMap.updateHighlightClick(countryID);
+        
         lineObject.drawPlot(countryID,data);
         //infoBox.updateTextDescription(countryID.toLowerCase(), that.activeYear);
       
     }
 
-
-    
-
     let select = d3.select('#dropdown')
     .append('select')
-    .attr('Id','select')
+    .attr('class','select')
     .on('change',onDropdownChange);
 
-     select
+let options = select
     .selectAll('option')
     .data(dropdown_data).enter()
     .append('option')
     .text(function (d) { return d; });
 
+function onDropdownChange() {
+// d3.select('body')
+//     .append('p')
+//     .text(selectValue + ' is the last selected option.');
+let year = d3.select("#yearslider").select('input').property('value');
+mapObject.updateMap(year);
+let current_selection = document.getElementById("rectg").getAttribute("class");
+lineObject.drawPlot(current_selection);
+heatmapObject.updateHeatMap();
+};
+
+
     function onDropdownChange() {
-
-        d3.select('#select')
-			.on("change", function () {
-				let sect = document.getElementById("select");
-                let current_selection = sect.options[sect.selectedIndex].value;
-                
-        // let current_selection = document.getElementById("rectg").getAttribute("class");
-        lineObject.drawPlot(current_selection,data);
+        lineObject.drawPlot("WLD",data);
         heatmapObject.plotheat_country(data);
-
-    });   
     }
 
 

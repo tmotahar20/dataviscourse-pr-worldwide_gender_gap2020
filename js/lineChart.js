@@ -11,7 +11,12 @@ class lineChart{
 		try{
 		let that = this;
 		let indicatorSelected = this.findIndicator();
-		
+		if (indicatorSelected == undefined){
+			indicatorSelected="literacy";
+		  }
+		if(country_region == undefined){
+			country_region = "WLD";
+		}  
         let indicatorData_women = this.data[indicatorSelected+"_women"];
 		let indicatorData_men = this.data[indicatorSelected+"_men"];
 		this.nameArray = data[indicatorSelected+"_women"].map(d => d.Country_Code);
@@ -173,6 +178,7 @@ catch(err){}
 
 
 findIndicator(){
+	try{
 	let selectValue = d3.select('select').property('value');
 	switch(selectValue){
 		case "Education(%)":
@@ -182,6 +188,12 @@ findIndicator(){
 		case "Labour Force(%)":
 			return "labour";
 	}
+}catch(err){
+	return "literacy";
 }
+
 }
+
+}
+
 

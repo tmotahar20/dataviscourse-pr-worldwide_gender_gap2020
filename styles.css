@@ -331,27 +331,6 @@ div.dropdown-wrapper {
     z-index: 99;
 }
 
-a {
-    background-color: orange;
-    box-shadow: 0 3px 0 darkorange;
-    color: white;
-    padding: 1em 1.em;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  
-  a:hover {
-    background-color: yellow;
-    cursor: pointer;
-  }
-  
-  a:active {
-    box-shadow: none;
-    top: 5px;
-  }
-  
-
 
 /*hide the items when the select box is closed:*/
 
@@ -455,9 +434,76 @@ div.tooltip {
 path.selected-country
  {
     fill:#636363;
-
+    /*  stroke-width: 1px;*/
+    /* stroke: #000000;
 }
 
+
+
+
+
+
+/* Styling for Counties */
+
+/*.africa {
+    
+    stroke-width: 1px;
+}
+
+path.africa.selected-country,
+circle.africa.selected-country {
+    /*fill: #cc9a04;
+    stroke: #000000;
+}
+
+/*i.africa {
+    color: #FFCA28;
+}
+
+.asia {
+    fill: #85C1E9;
+}
+
+path.asia.selected-country,
+ {
+  
+     stroke-width: 1px;
+     stroke: #000000;
+}
+
+/*i.asia {
+    color: #2d7aad;
+}
+
+.americas {
+    fill: #D4E157;
+}
+
+path.americas.selected-country,
+circle.americas.selected-country {
+    fill: #aaba18;
+    /*  stroke-width: 1px;*/
+    /* stroke: #000000;
+}
+
+i.americas {
+    color: #D4E157;
+}
+
+.europe {
+    fill: #AD1457;
+}
+
+path.europe.selected-country,
+circle.europe.selected-country {
+    fill: #7c0238;
+    /*  stroke-width: 1px;*/
+    /* stroke: #000000;
+}
+
+i.europe {
+    color: #AD1457;
+}*/
 
 .activeYear-background {
     font-size: 80px;

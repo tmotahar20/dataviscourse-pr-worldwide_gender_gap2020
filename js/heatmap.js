@@ -166,7 +166,7 @@ class heatmap{
               .attr("height", scaleRow.bandwidth())
               .attr("opacity", 0.9)
               .attr("fill", function(d) {
-                if (d==0) 
+                if (d==0 || d !==d) 
                   return "#bababa";
                 else
                   return color(d); });

@@ -509,3 +509,25 @@ i.europe {
     font-size: 80px;
     opacity: .4;
 }
+     
+a {
+    background-color: orange;
+    box-shadow: 0 3px 0 darkorange;
+    color: white;
+    padding: 1em 1.em;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  
+  a:hover {
+    background-color: yellow;
+    cursor: pointer;
+  }
+  
+  a:active {
+    box-shadow: none;
+    top: 5px;
+  }
+  
+

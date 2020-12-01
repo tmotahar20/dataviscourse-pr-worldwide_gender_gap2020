@@ -331,6 +331,33 @@ div.dropdown-wrapper {
     z-index: 99;
 }
 
+a {
+    background-color: orange;
+    box-shadow: 0 3px 0 darkorange;
+    color: white;
+    padding: 1em 1.em;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  
+  a:hover {
+    background-color: yellow;
+    cursor: pointer;
+  }
+  
+  a:active {
+    box-shadow: none;
+    top: 5px;
+  }
+  
+  /* Non-Demo Styles */
+  body {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+  }
+
 
 /*hide the items when the select box is closed:*/
 

@@ -77,7 +77,7 @@ class lineChart{
 			plotData.push(plotDataItem)
 		}
 
-		var line = d3.line().defined(function (d) { return d[1] !== null; });
+		var line = d3.line().defined(function (d) { return d[1] && d[2] !== null; });
 
 
   		var filteredData = plotData.filter(line.defined());
@@ -195,3 +195,5 @@ findIndicator(){
 }
 
 }
+
+

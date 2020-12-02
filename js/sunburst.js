@@ -20,7 +20,7 @@ class Sunburst{
 		  let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 		  let colorScale = d3.scaleOrdinal().range([
-			"#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#006837"		  ]);
+			"#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2271b5", "#09519c", "#08306b", "#08306b", "#deebf7"		  ]);
 		  
 		  let xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
 		  let rScale = d3.scaleLinear().range([0.4 * radius, radius]);

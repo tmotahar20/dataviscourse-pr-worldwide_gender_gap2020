@@ -3,7 +3,7 @@ loadData().then(data => {
     
     let that = this;
 
-    let dropdown_data = ["GDP","Education(%)" ,"Employment(%)", "Labour Force(%)"];
+    let dropdown_data = ["GDP","Education(%)" ,"Wages(%)", "Labour Force(%)"];
 
     let lineObject = new lineChart(data);
     lineObject.drawPlot("WLD",data);
@@ -51,7 +51,7 @@ heatmapObject.updateHeatMap();
         lineObject.drawPlot("WLD",data);
         heatmapObject.plotheat_country(data);
 
-    );   
+      
     }
 
 
@@ -157,3 +157,4 @@ async function loadData() {
 
             };
         }
+

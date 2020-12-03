@@ -1,5 +1,7 @@
 
 
+
+
 class CountryData {
    
     constructor(type, id, properties, geometry, region, income, wo_lit, wo_wag, wo_lab) {

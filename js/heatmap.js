@@ -181,7 +181,7 @@ class heatmap{
         switch(selectValue){
           case "Education(%)":
             return "literacy";
-          case "Wages(%)":
+          case "Employment(%)":
             return "employment";
           case "Labour Force(%)":
             return "labour";

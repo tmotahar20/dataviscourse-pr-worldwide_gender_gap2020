@@ -1,5 +1,7 @@
 
 
+
+
 class CountryData {
    
     constructor(type, id, properties, geometry, region, income, wo_lit, wo_wag, wo_lab) {
@@ -270,7 +272,6 @@ class Map {
             that.clearHighlight();
             //that.info_clearHighlight();
             that.updateCountry(countryID);
-            current_selection = that.findIndicator();
 
             console.log(current_selection);  
             
@@ -586,7 +587,7 @@ class Map {
         switch(selectValue){
             case "Education(%)":
                 return "literacy";
-            case "Employment(%)":
+            case "Wages(%)":
                 return "employment";
             case "Labour Force(%)":
                 return "labour";

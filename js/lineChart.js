@@ -195,8 +195,8 @@ findIndicator(){
     switch(selectValue){
         case "Education(%)":
             return "literacy";
-        case "Wages(%)":
-            return "employment";
+        case "Employment(%)":
+	    return "employment";
         case "Labour Force(%)":
             return "labour";
     }

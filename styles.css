@@ -47,13 +47,13 @@ body{
 
 .line {
  fill: none;
- stroke: #6b18cb;
+ stroke: #be0d0d;
  stroke-width: 3px;
 }
 
 .dot {
- fill:#6b18cb;
- stroke: #6b18cb;
+ fill:#b11111;
+ stroke: #a30c3f;
  stroke-width: 1.5px;
 }
 
@@ -343,6 +343,11 @@ div.dropdown-wrapper {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.legend {
+    font: 200 196px "Helvetica Neue";
+    fill: #ddd;
+    text-anchor: middle;
+  }
 
 .bc-legend-label {
     padding: 0 10px;
@@ -509,25 +514,3 @@ i.europe {
     font-size: 80px;
     opacity: .4;
 }
-     
-a {
-    background-color: orange;
-    box-shadow: 0 3px 0 darkorange;
-    color: white;
-    padding: 1em 1.em;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  
-  a:hover {
-    background-color: yellow;
-    cursor: pointer;
-  }
-  
-  a:active {
-    box-shadow: none;
-    top: 5px;
-  }
-  
-

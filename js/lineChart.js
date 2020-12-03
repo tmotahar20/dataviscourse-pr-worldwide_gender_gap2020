@@ -88,6 +88,9 @@ class lineChart{
 			plotData.push(plotDataItem)
 		}
 
+		
+		
+		
 		var line = d3.line().defined(function (d) { return d[1] && d[2] !== null; });
 
 
@@ -165,7 +168,7 @@ class lineChart{
 			.style("fill",function(d,i){
 				
 				console.log("line");
-				console.log(reg);
+				
 				if(reg=="SAS")
 				return "#ffffcc";
 				
@@ -178,8 +181,12 @@ class lineChart{
 				if(reg=="NAC")
 				return "#41b6c4";
 
-				if(reg=="ECS")
-				return "#ffffcc";
+				
+				
+				if(reg=="EAS")
+				return "#225ea8";
+
+
 
 				if(reg=="WLD")
 				return "lightgrey";

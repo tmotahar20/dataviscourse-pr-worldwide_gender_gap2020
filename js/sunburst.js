@@ -7,8 +7,8 @@ class Sunburst{
 
       let that = this;
       this.lineObject = lineObj;
-		  let width = 650;
-		  let height = 450;
+		  let width = 700;
+		  let height = 550;
 		  let radius = Math.min(width, height) / 2;
 		  let centerRadius = 0.1 * radius;
 		  let backCircleRadius = 0.1 * radius;
@@ -51,11 +51,12 @@ class Sunburst{
 		    .attr("d", arc)
 		    .attr('stroke', '#fff')
 		    .attr("fill", function(d) {
+
+				
 		      while(d.depth > 1) d = d.parent;
 			  if(d.depth == 0) return "lightgray";
 
-			  console.log("sun");
-				console.log(d.data.name);
+			  
 			  if(d.data.name=="SAS")
 			  col= "#ffffcc";
 
@@ -70,6 +71,9 @@ class Sunburst{
 			  if(d.data.name=="ECS")
 			  col= "#1d91c0";
 
+			  if(d.data.name=="EAS")
+			  col= "#225ea8";
+
 			  return col;
 
 			  
@@ -78,15 +82,8 @@ class Sunburst{
 		    .on("click", click)
         .on("mouseover",function(d){
 
-			d3.select("#info").selectAll('text').remove();
-			d3.select("#max-info").selectAll('text').remove();
 			
-			let max_info= d3.select("#max-info")
-			.append('text')
-			.attr('style', 'color:black')
-			// .text("Hi")
-			.text(d => d.data.name)
-			.attr("font-size", "30px");
+			
                 tooltip
                 .style("visibility","visible")
                 .html(d.data.tooltip_name);                
@@ -110,13 +107,27 @@ class Sunburst{
 		    .attr("font", "10px")
 		    .attr("text-anchor", "middle")
 		    .on("click", click)
-		    .text(function(d) { return d.data.name; })
+		    .text(function(d) { 
+				
+				 return d.data.name; })
 		    .style('font-size','8px');
 
 			
 		
 		  function click(d) {
 
+			d3.select("#info").selectAll('text').remove();
+			d3.select("#max-info").selectAll('text').remove();
+
+			let z=d.data;
+			let z1= z.tooltip_name;
+			
+			let max_info= d3.select("#info")
+			.append('text')
+			.attr('style', 'color:black')
+			 
+			.text(z1)
+			.attr("font-size", "30px");
 			
 		  	try{
 		    let tween = g.transition()
@@ -140,6 +151,8 @@ class Sunburst{
 
 		    tween.selectAll("text").attrTween("transform", function(d) {
 		        return function() {
+			
+					
 		          return "translate(" + arc.centroid(d) + ")";
 		        };
 		      })
@@ -154,14 +167,16 @@ class Sunburst{
 		        };
 		      });
           let class_id = d3.select(this).property('id');
-          if(class_id != "WORLD"){
+          if(class_id != "WLD"){
 
-            if(event.bubbles){          
-					  lineObj.drawPlot(class_id );
+			          let new_lineObject = new lineChart(data);
+					  new_lineObj.drawPlot(class_id, data);
+
+					  console.log("latest");
 			console.log(class_id);	  
 		   
               
-        }
+        
         } 
 
     }//try
@@ -192,7 +207,12 @@ class Sunburst{
 	   
 	   { "name": "ECS", "tooltip_name":"Europe & Central Asia", 
         "children": [{"tooltip_name":"Albania","name":"ALB","value":0.5},{"tooltip_name":"Andorra","name":"AND","value":0.5},{"tooltip_name":"Armenia","name":"ARM","value":0.5},{"tooltip_name":"Austria","name":"AUT","value":0.5},{"tooltip_name":"Azerbaijan","name":"AZE","value":0.5},{"tooltip_name":"Belgium","name":"BEL","value":0.5},{"tooltip_name":"Bulgaria","name":"BGR","value":0.5},{"tooltip_name":"Bosnia and Herzegovina","name":"BIH","value":0.5},{"tooltip_name":"Belarus","name":"BLR","value":0.5},{"tooltip_name":"Switzerland","name":"CHE","value":0.5},{"tooltip_name":"Channel Islands","name":"CIH","value":0.5},{"tooltip_name":"Cyprus","name":"CYP","value":0.5},{"tooltip_name":"Czech Republic","name":"CZE","value":0.5},{"tooltip_name":"Germany","name":"DEU","value":0.5},{"tooltip_name":"Denmark","name":"DNK","value":0.5},{"tooltip_name":"Spain","name":"ESP","value":0.5},{"tooltip_name":"Estonia","name":"EST","value":0.5},{"tooltip_name":"Finland, The","name":"FIN","value":0.5},{"tooltip_name":"France","name":"FRA","value":0.5},{"tooltip_name":"Faroe Islands","name":"FRO","value":0.5},{"tooltip_name":"United Kingdom","name":"GBR","value":0.5},{"tooltip_name":"Georgia","name":"GEO","value":0.5},{"tooltip_name":"Greece","name":"GRC","value":0.5},{"tooltip_name":"Greenland","name":"GRL","value":0.5},{"tooltip_name":"Croatia","name":"HRV","value":0.5},{"tooltip_name":"Hungary","name":"HUN","value":0.5},{"tooltip_name":"Mauritania","name":"MRT","value":0.5},{"tooltip_name":"Isle of Man","name":"IMN","value":0.5},{"tooltip_name":"Ireland","name":"IRL","value":0.5},{"tooltip_name":"Iceland","name":"ISL","value":0.5},{"tooltip_name":"Italy","name":"ITA","value":0.5},{"tooltip_name":"Kazakhstan","name":"KAZ","value":0.5},{"tooltip_name":"Kyrgyz Republic","name":"KGZ","value":0.5},{"tooltip_name":"Liechtenstein","name":"LIE","value":0.5},{"tooltip_name":"Lithuania","name":"LTU","value":0.5},{"tooltip_name":"Luxembourg","name":"LUX","value":0.5},{"tooltip_name":"Latvia","name":"LVA","value":0.5},{"tooltip_name":"Monaco","name":"MCO","value":0.5},{"tooltip_name":"Moldova","name":"MDA","value":0.5},{"tooltip_name":"Macedonia, FYR","name":"MKD","value":0.5},{"tooltip_name":"Montenegro","name":"MNE","value":0.5},{"tooltip_name":"Netherlands","name":"NLD","value":0.5},{"tooltip_name":"Norway","name":"NOR","value":0.5},{"tooltip_name":"Poland","name":"POL","value":0.5},{"tooltip_name":"Portugal","name":"PRT","value":0.5},{"tooltip_name":"Romania","name":"ROU","value":0.5},{"tooltip_name":"Russian Federation","name":"RUS","value":0.5},{"tooltip_name":"Serbia","name":"SRB","value":0.5}]
-       }
+	   },
+
+	   { "name": "EAS", "tooltip_name":"East Asia & Pacific", 
+        "children": [{"tooltip_name":"American Samoa","name":"ASM","value":0.5},{"tooltip_name":"Australia","name":"AUS","value":0.5},{"tooltip_name":"Brunei Darussalam","name":"BRN","value":0.5},{"tooltip_name":"China","name":"CHN","value":0.5},{"tooltip_name":"Fiji","name":"FJI","value":0.5},{"tooltip_name":"Indonesia","name":"IDN","value":0.5},{"tooltip_name":"Japan","name":"JPN","value":0.5},{"tooltip_name":"Cambodia","name":"KHM","value":0.5},{"tooltip_name":"Kiribati","name":"Kiribati","value":0.5},{"tooltip_name":"Korea, Rep.","name":"KOR","value":0.5},{"tooltip_name":"Lao PDR","name":"LAO","value":0.5},{"tooltip_name":"Cyprus","name":"CYP","value":0.5},{"tooltip_name":"Macao SAR, China","name":"MAC","value":0.5},{"tooltip_name":"Myanmar","name":"MMR","value":0.5},{"tooltip_name":"Mongolia","name":"MNG","value":0.5},{"tooltip_name":"Malaysia","name":"MYS","value":0.5},{"tooltip_name":"New Zealand","name":"NZL","value":0.5},{"tooltip_name":"Philippines, The","name":"PHL","value":0.5},{"tooltip_name":"Papua New Guinea","name":"PNG","value":0.5},{"tooltip_name":"Korea, Dem. Peopleï¿½s Rep.","name":"PRK","value":0.5},{"tooltip_name":"Singapore","name":"SGP","value":0.5},{"tooltip_name":"Thailand","name":"THA","value":0.5},{"tooltip_name":"Vietnam","name":"VNM","value":0.5},{"tooltip_name":"Vanuatu","name":"VUT","value":0.5}]
+	   }
+	  
     ]}
     return regions;
   } 

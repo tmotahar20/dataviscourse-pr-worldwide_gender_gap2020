@@ -98,8 +98,6 @@ class Map {
             .attr("class", "fill")
             .attr("xlink:href", "#sphere");
 
-            console.log(world);
-            //console.log(this.populationData);
             
 
         let countries = map.selectAll('path')
@@ -280,11 +278,7 @@ class Map {
                 let gdp_all  =  that.gdp[index];
                 let info= gdp_all[2016];
 
-                // let max_gdp= d3.max(that.gdp);
-                // let max_gdp_index= that.gdp.indexOf(max_gdp);
-                // let max_gdp_country= that.gdp[max_gdp_index].country;
-
-                //console.log(that.gdp.);
+                
 
                 countryName=name;
 
@@ -332,10 +326,7 @@ class Map {
 
                  }
 
-                 console.log(max);
-                 console.log(max_country);
-
-        
+                        
                 
                 
                 countryName=name;
@@ -408,8 +399,7 @@ class Map {
 
                  }
 
-                 console.log(max);
-                 console.log(max_country);
+                
      
                 countryName=name;
 
@@ -480,8 +470,7 @@ class Map {
 
                  }
 
-                 console.log(max);
-                 console.log(max_country);
+                 
      
                 countryName=name;
                 infr_women=d3.format(",.2f")(lab_women);
@@ -523,7 +512,7 @@ class Map {
            
         });
 
-        console.log(max_country);
+        
         
         
 

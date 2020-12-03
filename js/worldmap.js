@@ -52,7 +52,7 @@ class Map {
 
     drawMap(world) {
 
-        let current_selection= "GDP";
+        let current_selection;
 
         
 
@@ -148,17 +148,20 @@ class Map {
            let colorsScheme=["#08519c","#3182bd", "#6baed6", "#bdd7e7", "#DCDCDC"];
 
 
-           d3.select('#select')
+           d3.select('select')
 			.on("change", function () {
                 d3.select("#max-info").selectAll('text').remove();
                 d3.select("#info").selectAll('text').remove();
-               
-				let sect = document.getElementById("select");
-                current_selection = sect.options[sect.selectedIndex].value;
 
+                let current_selection = that.findIndicator();
+               
+                //let sect = document.getElementById("select");
+                
+                console.log(current_selection);
                 
                 
-                if(current_selection==="Education(%)"){
+                
+                if(current_selection=='literacy'){
 
                    
                    
@@ -183,7 +186,7 @@ class Map {
             
             }
 
-             else if(current_selection==="Wages(%)"){
+             else if(current_selection==='employment'){
 
                
                     
@@ -206,7 +209,7 @@ class Map {
             
             }
 
-            else if(current_selection==="Labour Force(%)"){
+            else if(current_selection==='labour'){
 
                 d3.select("#max-info").selectAll('text').remove();
                 
@@ -256,7 +259,7 @@ class Map {
 
          
 
-                
+                console.log(current_selection);     
         
 
         countries.on('click', function(d) {
@@ -267,8 +270,9 @@ class Map {
             that.clearHighlight();
             //that.info_clearHighlight();
             that.updateCountry(countryID);
+            current_selection = that.findIndicator();
 
-           
+            console.log(current_selection);  
             
            let countryName; 
            let infr_women;
@@ -276,9 +280,7 @@ class Map {
            let infr_gap;
 
            
-           
-           
-           if(current_selection =='GDP'){
+           if(current_selection ==='gdp'){
 
                 let index = that.nameArray_gdp.indexOf(countryID.id);
                 let name = index > -1 ? that.gdp[index].country : 'none';
@@ -298,10 +300,14 @@ class Map {
                 
             }
 
-            if(current_selection =='Education(%)'){
+            if(current_selection === 'literacy'){
+
+                
 
                 let index = that.nameArray_wolit.indexOf(countryID.id);
                 let name = index > -1 ? that.literacy_women[index].Country_Name : 'none';
+
+               
 
                 
                 let lit_women  =  that.literacy_women[index].yr_2011 > 0 ? that.literacy_women[index].yr_2011 : 'Unknown';
@@ -349,7 +355,8 @@ class Map {
                     let inf= d3.select("#info")
                               .append('text')
                               .attr('style', 'color:black')
-                              .text(d => 'In ' + countryName +": , women's "+ current_selection+ "  is  : " 
+                              //.text("Hi");
+                             .text(d => 'In ' + countryName +": , women's "+ current_selection+ "  is  : " 
                                 + infr_women + ", which is "+ infr_gap + "  % less than men");
     
                     }
@@ -375,7 +382,7 @@ class Map {
                                     .attr("font-size", "30px");
             }
 
-            if(current_selection =='Wages(%)'){
+            if(current_selection =='employment'){
 
                 let index = that.nameArray_woemp.indexOf(countryID.id);
                 let name = index > -1 ? that.employment_women[index].Country_Name : 'none';
@@ -445,7 +452,7 @@ class Map {
                                     .attr("font-size", "30px");
             }
 
-            if(current_selection =='Labour Force(%)'){
+            if(current_selection =='labour'){
 
                 let index = that.nameArray_wolab.indexOf(countryID.id);
                 let name = index > -1 ? that.labour_women[index].Country_Name : 'none';
@@ -583,6 +590,9 @@ class Map {
                 return "employment";
             case "Labour Force(%)":
                 return "labour";
+                case "GDP":
+                return "gdp";
+
         }
 
        

@@ -3,7 +3,7 @@ class Sunburst{
 	constructor(){
 	}
 
-	drawSunburst(lineObj){
+	drawSunburst(lineObj, allData){
 
       let that = this;
       this.lineObject = lineObj;
@@ -14,13 +14,15 @@ class Sunburst{
 		  let backCircleRadius = 0.1 * radius;
 
 	  let data = this.jsonData();
+
+	  console.log(allData);
       var tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
 
 		  let svg = d3.select("#sunburst").append("svg").attr("width", width).attr("height", height);
 		  let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
 		  let colorScale = d3.scaleOrdinal().range([
-			"#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2271b5", "#09519c", "#08306b", "#08306b", "#deebf7"		  ]);
+			"#ffffcc", "#c7e9b4", "#7fcdbb","#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"]);
 		  
 		  let xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
 		  let rScale = d3.scaleLinear().range([0.4 * radius, radius]);
@@ -33,7 +35,7 @@ class Sunburst{
 		  let partition = d3.partition();
 		  partition(root);
 
-		
+		 let col;
 		  let arc = d3.arc()
 		    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, xScale(d.x0))); })
 		    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, xScale(d.x1))); })
@@ -50,12 +52,41 @@ class Sunburst{
 		    .attr('stroke', '#fff')
 		    .attr("fill", function(d) {
 		      while(d.depth > 1) d = d.parent;
-		      if(d.depth == 0) return "lightgray";
-		      return colorScale(d.value);
+			  if(d.depth == 0) return "lightgray";
+
+			  console.log("sun");
+				console.log(d.data.name);
+			  if(d.data.name=="SAS")
+			  col= "#ffffcc";
+
+			  if(d.data.name=="SSF")
+			  col= "#c7e9b4";
+
+			  if(d.data.name=="MEA")
+			  col= "#7fcdbb";
+
+			  if(d.data.name=="NAC")
+			  col= "#41b6c4";
+			  if(d.data.name=="ECS")
+			  col= "#1d91c0";
+
+			  return col;
+
+			  
 		    })
 		    .attr("opacity", 1)
 		    .on("click", click)
         .on("mouseover",function(d){
+
+			d3.select("#info").selectAll('text').remove();
+			d3.select("#max-info").selectAll('text').remove();
+			
+			let max_info= d3.select("#max-info")
+			.append('text')
+			.attr('style', 'color:black')
+			// .text("Hi")
+			.text(d => d.data.name)
+			.attr("font-size", "30px");
                 tooltip
                 .style("visibility","visible")
                 .html(d.data.tooltip_name);                
@@ -82,7 +113,7 @@ class Sunburst{
 		    .text(function(d) { return d.data.name; })
 		    .style('font-size','8px');
 
-      
+			
 		
 		  function click(d) {
 
@@ -126,7 +157,7 @@ class Sunburst{
           if(class_id != "WORLD"){
 
             if(event.bubbles){          
-					  lineObj.drawPlot(class_id);
+					  lineObj.drawPlot(class_id );
 			console.log(class_id);	  
 		   
               
@@ -157,9 +188,12 @@ class Sunburst{
       },
       { "name": "SSF", "tooltip_name":"Sub-Saharan Africa", 
         "children": [{"tooltip_name":"Angola","name":"AGO","value":0.5},{"tooltip_name":"Burundi","name":"BDI","value":0.5},{"tooltip_name":"Benin","name":"BEN","value":0.5},{"tooltip_name":"Burkina Faso","name":"BFA","value":0.5},{"tooltip_name":"Botswana","name":"BWA","value":0.5},{"tooltip_name":"Central African Republic","name":"CAF","value":0.5},{"tooltip_name":"Cote d'Ivoire","name":"CIV","value":0.5},{"tooltip_name":"Cameroon","name":"CMR","value":0.5},{"tooltip_name":"Congo, Dem. Rep.","name":"COD","value":0.5},{"tooltip_name":"Congo, Rep.","name":"COG","value":0.5},{"tooltip_name":"Comoros","name":"COM","value":0.5},{"tooltip_name":"Cabo Verde","name":"CPV","value":0.5},{"tooltip_name":"Eritrea","name":"ERI","value":0.5},{"tooltip_name":"Ethiopia","name":"ETH","value":0.5},{"tooltip_name":"Gabon","name":"GAB","value":0.5},{"tooltip_name":"Ghana","name":"GHA","value":0.5},{"tooltip_name":"Guinea","name":"GIN","value":0.5},{"tooltip_name":"Gambia, The","name":"GMB","value":0.5},{"tooltip_name":"Guinea-Bissau","name":"GNB","value":0.5},{"tooltip_name":"Equatorial Guinea","name":"GNQ","value":0.5},{"tooltip_name":"Kenya","name":"KEN","value":0.5},{"tooltip_name":"Liberia","name":"LBR","value":0.5},{"tooltip_name":"Lesotho","name":"LSO","value":0.5},{"tooltip_name":"Madagascar","name":"MDG","value":0.5},{"tooltip_name":"Mali","name":"MLI","value":0.5},{"tooltip_name":"Mozambique","name":"MOZ","value":0.5},{"tooltip_name":"Mauritania","name":"MRT","value":0.5},{"tooltip_name":"Mauritius","name":"MUS","value":0.5},{"tooltip_name":"Malawi","name":"MWI","value":0.5},{"tooltip_name":"Namibia","name":"NAM","value":0.5},{"tooltip_name":"Niger","name":"NER","value":0.5},{"tooltip_name":"Nigeria","name":"NGA","value":0.5},{"tooltip_name":"Rwanda","name":"RWA","value":0.5},{"tooltip_name":"Sudan","name":"SDN","value":0.5},{"tooltip_name":"Senegal","name":"SEN","value":0.5},{"tooltip_name":"Sierra Leone","name":"SLE","value":0.5},{"tooltip_name":"Somalia","name":"SOM","value":0.5},{"tooltip_name":"South Sudan","name":"SSD","value":0.5},{"tooltip_name":"Sao Tome and Principe","name":"STP","value":0.5},{"tooltip_name":"Swaziland","name":"SWZ","value":0.5},{"tooltip_name":"Seychelles","name":"SYC","value":0.5},{"tooltip_name":"Chad","name":"TCD","value":0.5},{"tooltip_name":"Togo","name":"TGO","value":0.5},{"tooltip_name":"Tanzania","name":"TZA","value":0.5},{"tooltip_name":"Uganda","name":"UGA","value":0.5},{"tooltip_name":"South Africa","name":"ZAF","value":0.5},{"tooltip_name":"Zambia","name":"ZMB","value":0.5},{"tooltip_name":"Zimbabwe","name":"ZWE","value":0.5}]
+	   },
+	   
+	   { "name": "ECS", "tooltip_name":"Europe & Central Asia", 
+        "children": [{"tooltip_name":"Albania","name":"ALB","value":0.5},{"tooltip_name":"Andorra","name":"AND","value":0.5},{"tooltip_name":"Armenia","name":"ARM","value":0.5},{"tooltip_name":"Austria","name":"AUT","value":0.5},{"tooltip_name":"Azerbaijan","name":"AZE","value":0.5},{"tooltip_name":"Belgium","name":"BEL","value":0.5},{"tooltip_name":"Bulgaria","name":"BGR","value":0.5},{"tooltip_name":"Bosnia and Herzegovina","name":"BIH","value":0.5},{"tooltip_name":"Belarus","name":"BLR","value":0.5},{"tooltip_name":"Switzerland","name":"CHE","value":0.5},{"tooltip_name":"Channel Islands","name":"CIH","value":0.5},{"tooltip_name":"Cyprus","name":"CYP","value":0.5},{"tooltip_name":"Czech Republic","name":"CZE","value":0.5},{"tooltip_name":"Germany","name":"DEU","value":0.5},{"tooltip_name":"Denmark","name":"DNK","value":0.5},{"tooltip_name":"Spain","name":"ESP","value":0.5},{"tooltip_name":"Estonia","name":"EST","value":0.5},{"tooltip_name":"Finland, The","name":"FIN","value":0.5},{"tooltip_name":"France","name":"FRA","value":0.5},{"tooltip_name":"Faroe Islands","name":"FRO","value":0.5},{"tooltip_name":"United Kingdom","name":"GBR","value":0.5},{"tooltip_name":"Georgia","name":"GEO","value":0.5},{"tooltip_name":"Greece","name":"GRC","value":0.5},{"tooltip_name":"Greenland","name":"GRL","value":0.5},{"tooltip_name":"Croatia","name":"HRV","value":0.5},{"tooltip_name":"Hungary","name":"HUN","value":0.5},{"tooltip_name":"Mauritania","name":"MRT","value":0.5},{"tooltip_name":"Isle of Man","name":"IMN","value":0.5},{"tooltip_name":"Ireland","name":"IRL","value":0.5},{"tooltip_name":"Iceland","name":"ISL","value":0.5},{"tooltip_name":"Italy","name":"ITA","value":0.5},{"tooltip_name":"Kazakhstan","name":"KAZ","value":0.5},{"tooltip_name":"Kyrgyz Republic","name":"KGZ","value":0.5},{"tooltip_name":"Liechtenstein","name":"LIE","value":0.5},{"tooltip_name":"Lithuania","name":"LTU","value":0.5},{"tooltip_name":"Luxembourg","name":"LUX","value":0.5},{"tooltip_name":"Latvia","name":"LVA","value":0.5},{"tooltip_name":"Monaco","name":"MCO","value":0.5},{"tooltip_name":"Moldova","name":"MDA","value":0.5},{"tooltip_name":"Macedonia, FYR","name":"MKD","value":0.5},{"tooltip_name":"Montenegro","name":"MNE","value":0.5},{"tooltip_name":"Netherlands","name":"NLD","value":0.5},{"tooltip_name":"Norway","name":"NOR","value":0.5},{"tooltip_name":"Poland","name":"POL","value":0.5},{"tooltip_name":"Portugal","name":"PRT","value":0.5},{"tooltip_name":"Romania","name":"ROU","value":0.5},{"tooltip_name":"Russian Federation","name":"RUS","value":0.5},{"tooltip_name":"Serbia","name":"SRB","value":0.5}]
        }
     ]}
     return regions;
   } 
 }
-

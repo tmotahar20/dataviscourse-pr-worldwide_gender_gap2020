@@ -1,3 +1,5 @@
+
+
 class lineChart{
 
 	constructor(data){
@@ -12,11 +14,15 @@ class lineChart{
 		let that = this;
 		let indicatorSelected = this.findIndicator();
 		if (indicatorSelected == undefined){
-			indicatorSelected="literacy";
+			indicatorSelected="gdp";
 		  }
 		if(country_region == undefined){
 			country_region = "WLD";
-		}  
+		} 
+
+		
+		//let wo_lit= this.literacy_women[index].yr_2011 : 'none';
+		
         let indicatorData_women = this.data[indicatorSelected+"_women"];
 		let indicatorData_men = this.data[indicatorSelected+"_men"];
 		this.nameArray = data[indicatorSelected+"_women"].map(d => d.Country_Code);
@@ -59,7 +65,12 @@ class lineChart{
 
 		svg.append("g").attr("class", "y_axis").call(d3.axisLeft(y));
 
+		
+
 		let index = this.nameArrayMale.indexOf(country_region);
+		let allData=this.data['literacy_women'];
+		let reg= allData[index].Region_Code;
+		//console.log(reg);
 		let country_data = indicatorData_men[index];
 		let plotData = [];
 		let plotDataItem = [];
@@ -96,30 +107,34 @@ class lineChart{
 			.data(points)
 			.enter()		  			
   			.append("circle")
-  			.on("mouseover",function(d){
+  			.on("mouseover",function(d,i,g){
+				 				d3.select(g[i]).style('fill', ' #a30c3f')
                 let y = d[2];
                 let z = d[3];
-                tooltip
-                .style("visibility","visible")
-                .html(country_region+"</br>"+"Year: "+y+"</br>" + " Men " + indicatorSelected+": "+ d[3]+ "%");
-            })
-            .on("mouseout", function(d) {
-                tooltip.style("visibility", "hidden");
-            })
-            .on("mousemove", function(d) {
-                tooltip
-                .style("top", (d3.event.pageY - 20) + "px")
-                .style("left", (d3.event.pageX + 10) + "px");
-            })
-  			.attr("r",3)
-  			.attr("class","dot")
-  			.attr("cx",function(d){return d[0]})
-  			.attr("cy",function(d){return d[1]})
-  			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+				tooltip
+				                .style("visibility","visible")
+				                .html(country_region+"</br>"+"Year: "+y+"</br>" + " Men " + indicatorSelected+": "+ d[3]+ "%");
+				            })
+				            .on("mouseout", function(d, i,g) {
+								d3.select(g[i]).style('fill', '#b11111')
+				          .style('stroke-width', 1.5);
+				                tooltip.style("visibility", "hidden");
+				            })
+				            .on("mousemove", function(d) {
+				                tooltip
+				                .style("top", (d3.event.pageY - 20) + "px")
+				                .style("left", (d3.event.pageX + 10) + "px");
+				            })
+				  			.attr("r",3)
+				  			.attr("class","dot")
+				  			.attr("cx",function(d){return d[0]})
+				  			.attr("cy",function(d){return d[1]})
+				  			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		let g = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		index = this.nameArray.indexOf(country_region);
 		country_data = indicatorData_women[index];
+		console.log(country_data);
 		plotData = [];
 		plotDataItem = [];
 		for(let i=2000;i<2020;i++){
@@ -139,27 +154,67 @@ class lineChart{
 		let bars = g.selectAll("rect")
 					.data(plotData);
 
+		
+
+		
+
 		bars.enter()
 			.append("rect")
 			.attr("class",country_region)
 			.attr("id","rectg")
-			.style("fill","steelblue")
-			.on("mouseover",function(d){
+			.style("fill",function(d,i){
+				
+				console.log("line");
+				console.log(reg);
+				if(reg=="SAS")
+				return "#ffffcc";
+				
+				if(reg=="SSF")
+				return "#c7e9b4";
+
+				if(reg=="MEA")
+				return "#7fcdbb";
+				
+				if(reg=="NAC")
+				return "#41b6c4";
+
+				if(reg=="ECS")
+				return "#ffffcc";
+
+				if(reg=="WLD")
+				return "lightgrey";
+
+				
+
+				else
+				return "steelblue";
+
+				
+
+
+
+
+			})
+			.on("mouseover",function(d, i,g){
+					d3.select(g[i]).style('fill', 'skyblue')
                 let x = indicatorData_women[that.nameArray.indexOf(country_region)]["Country_Name"];
                 let y = d[2];
                 let z = d[3];
                 tooltip
                 .style("visibility","visible")
-                .html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>" + indicatorSelected+" : "+d[3]+"%");
+				.html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>" + "Women : " +d[3]+"%");
             })
-            .on("mouseout", function(d) {
-                tooltip.style("visibility", "hidden");
-            })
-            .on("mousemove", function(d) {
-                tooltip
-                .style("top", (d3.event.pageY - 20) + "px")
-                .style("left", (d3.event.pageX + 10) + "px");
-            }) 
+            .on("mouseout", function(d, i,g) {
+
+								d3.select(g[i]).style('fill', 'steelblue')
+				          .style('stroke-width', 1);
+				                tooltip.style("visibility", "hidden");
+				            })
+				            .on("mousemove", function(d) {
+				                tooltip
+				                .style("top", (d3.event.pageY - 20) + "px")
+				                .style("left", (d3.event.pageX + 10) + "px");
+				            }) 
 			.attr("x",function(d){return d[0]-47;})
             .attr("y",function(d){return d[1]-40;})
 			.attr("width",14)
@@ -181,6 +236,8 @@ findIndicator(){
 	try{
 	let selectValue = d3.select('select').property('value');
 	switch(selectValue){
+		case "GDP":
+			return "gdp";
 		case "Education(%)":
 			return "literacy";
 		case "Wages(%)":
@@ -195,5 +252,3 @@ findIndicator(){
 }
 
 }
-
-

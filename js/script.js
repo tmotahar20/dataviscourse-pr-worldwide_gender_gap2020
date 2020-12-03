@@ -26,7 +26,7 @@ loadData().then(data => {
 
     let select = d3.select('#dropdown')
     .append('select')
-    .attr('id','select')
+    .attr('class','select')
     .on('change',onDropdownChange);
 
 let options = select

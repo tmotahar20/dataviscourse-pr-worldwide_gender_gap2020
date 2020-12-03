@@ -1,149 +1,110 @@
-loadData().then(data => {
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <title>Data Visualization Project: Fall 2020</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://d3js.org/topojson.v3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.js"></script>
+    <script src="js/lineChart.js" async></script>
+    <script src="js/sunburst.js" async></script>
+    <script src="js/worldmap.js" async></script>
+    <script src="js/info_box.js" async></script>
+    <script src="js/script.js" async></script>
     
-    let that = this;
+    <script src="js/sunburst.js" async></script>
+    <script src="js/heatmap.js" async></script>
 
-    let dropdown_data = ["GDP","Education(%)" ,"Employment(%)", "Labour Force(%)"];
+</head>
 
-    let lineObject = new lineChart(data);
-    lineObject.drawPlot("WLD",data);
-    
-    function updateCountry() {
-
-        if(that.activeCountry ==null){
-            return "WLD";
-        }
-
-        let countryID = that.activeCountry;
-
-        
-        worldMap.updateHighlightClick(countryID);
-        
-        lineObject.drawPlot(countryID,data);
-        //infoBox.updateTextDescription(countryID.toLowerCase(), that.activeYear);
-      
-    }
-
-    let select = d3.select('#dropdown')
-    .append('select')
-    .attr('id','select')
-    .on('change',onDropdownChange);
-
-let options = select
-    .selectAll('option')
-    .data(dropdown_data).enter()
-    .append('option')
-    .text(function (d) { return d; });
-
-
-
-    function onDropdownChange() {
-        lineObject.drawPlot("WLD",data);
-        heatmapObject.plotheat_country(data);
-
-      
-    }
-
-
-
-    
-    function updateYear(year) {
-
-
-        that.activeYear = year;
+<body>
+  <div class="topnav">
+    <a id="git_repo" href="https://github.com/tmotahar20/dataviscourse-pr-worldwide_gender_gap2020" >Git Repository</a>
+    <a id="process_book"  target="_blank">Process Book</a>
+    <a id="project_video" >Project Video</a>
+    <a id="visualization" class="active">Visualization</a>
+    <h1>Worldwide Gender Gap</h1>
+  </div>
+   <div class="header">
+      <h1>Worldwide Gender Gap</h1>
        
-    }
-   
-    const worldMap = new Map(data, updateCountry);
-    //const infoBox = new InfoBox(data);
-    
-    
-
-    let group_id = data.gdp.map(d => d.geo);
+  </div> 
+  <h2 style="margin-left: 20px;">Select Indicator</h2>
+  <div style="margin-left: 20px;" id="dropdown" >
+  </div>
   
-   
-    d3.json('data/world.json').then(mapData => {      
-           worldMap.drawMap(mapData);
-    });
 
-      let sunburstObject = new Sunburst();
-    sunburstObject.drawSunburst(lineObject);
-
-    let heatmapObject = new heatmap(data);
-heatmapObject.drawLegend();
-heatmapObject.plotheat_country(data);
-    
-    document.addEventListener("click", function (e) {
+</br>
+</br>
+<div class="wrapper">
+  <div class="innerWrapper" >
+    <h2>World Map</h2>
+      
+      <div id="map-chart" class="view">
+       </div>
+     
+ 
+<div id="Gap"></div>
+      <div id="color-detail">
+        <svg width="750" height="20" id="colorBar">
+          <g class="bar-chart" id="aBar" transform="translate(20, 0)">
+            <rect width="150" height="15" transform="translate(0, 0) scale(1, 1) " fill= "#08519c" id="rect1"/>
+            <rect width="150" height="15" transform="translate(150,0 ) scale(1, 1)" fill ="#3182bd" id="rect2"/>
+            <rect width="150" height="15" transform="translate(300,0 ) scale(1, 1)" fill= "#6baed6" id="rect3"/>
+            <rect width="150" height="15" transform="translate(450,0 ) scale(1, 1)" fill= "#bdd7e7" id="rect4"/>
+            <rect width="150" height="15" transform="translate(600,0 ) scale(1, 1)" fill= "#DCDCDC" id="rect5"/>
+            </g>
+          </svg>
+          <svg width="750" height="100" id="legendBar">                
+            <g class="bar-chart-legend" id="aBarLeg" transform="translate(20, 0)"></g>
+            <g  id="info" transform="translate(20,50 )"></g>
+            <g  id="max-info" transform="translate(20,80 )"></g>
+            <g  id="sun-info" transform="translate(20,120 )"></g>
+          </svg>
+           
+           
         
-        e.stopPropagation();        
-        updateCountry(null, null);
 
-        if(e.target.id.includes('.')){
-            country_id= e.target.id.split('.')[1];
-            country_name= e.target.id.split('.')[2];
-        }
-        else{
-            country_id= e.target.id;
-        }
-         
+      </div> 
+    </div>   
+  </div>
 
-        if(country_id !='' && group_id.includes(country_id.toLowerCase())){
-            that.activeCountry = country_id;
-           // let country_stat = data.literacy_women.map(d => d.Income_Group);
-             
-            updateCountry();
-        }
+  <!-- <div id="bar-chart" class="view">
+    <h2>Bar Chart</h2>
+  </div> -->
+  <h2>Region Wise</h2>
+  <p>We can zoom into a region and see the gap between women and men for the selected indicator</p>
+      <div id="sunburst"></div>
+  <div id="line-chart" class="view">
+    <h2>Comparison of Women with Men</h2>
+    <p>The line denotes men data, and the barchart denotes women data. 
+      For each selected country, the gap between men and women for each year can be see. We can see the trend of increasing or decresing the gap</p>
+    <div id="linechart">
 
-        else{
-            that.activeCountry= null;
-            worldMap.clearHighlight();
-            //infoBox.clearHighlight();
-         
-        
-        }
-    });
+       </div>
+</div>
+</br>
+<div id="heatmap" class="view">
+<h2 style="margin-left: 20px;">Heatmap showing women centric data for countries over the years</h2>
+<p style="margin-left: 20px;">Temporal distribution for all the countries</p>
 
-});
+<div id="maplegend"></div>
+<div id="heatmap">
 
+</div>
+<p></p>
+<p></p>
 
-async function loadFile(file) {
-    let data = await d3.csv(file).then(d => {
-        let mapped = d.map(g => {
-            for (let key in g) {
-                let numKey = +key;
-                if (numKey) {
-                    g[key] = +g[key];
-                }
-            }
-            return g;
-        });
-        return mapped;
-    });
-    return data;
-}
+  </div>
 
 
-async function loadData() {
-    let pop = await loadFile('data/pop.csv');
-    let gdp = await loadFile('data/gdppc.csv');
-    let literacy_men = await  loadFile('data/literacy_rate_men.csv');
-    let literacy_women = await  loadFile('data/literacy_rate_women.csv');
-    let employment_men = await  loadFile('data/men_employment.csv');
-    let employment_women = await  loadFile('data/women_employment.csv');
-    let labour_men = await  loadFile('data/labour_men.csv');
-    let labour_women = await  loadFile('data/labour_women.csv');
+</body>
 
-    //console.log(employment_women);
-   
-    return {
-        'population': pop,
-        'gdp': gdp,
-        'literacy_men': literacy_men,
-        'literacy_women': literacy_women,
-        'employment_men': employment_men,
-        'employment_women': employment_women,
-        'labour_men': labour_men,
-        'labour_women': labour_women,
-
-            };
-        }
+</html>

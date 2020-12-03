@@ -16,41 +16,42 @@ loadData().then(data => {
 
         let countryID = that.activeCountry;
 
-
-        worldMap.updateHighlightClick(countryID);
-        lineObject.drawPlot(countryID,data);
-
-        console.log(countryID);
         
+        worldMap.updateHighlightClick(countryID);
+        
+        lineObject.drawPlot(countryID,data);
+        //infoBox.updateTextDescription(countryID.toLowerCase(), that.activeYear);
       
     }
 
-
-    
-
     let select = d3.select('#dropdown')
     .append('select')
-    .attr('Id','select')
+    .attr('class','select')
     .on('change',onDropdownChange);
 
-     select
+let options = select
     .selectAll('option')
     .data(dropdown_data).enter()
     .append('option')
     .text(function (d) { return d; });
 
-    function onDropdownChange() {
+function onDropdownChange() {
+// d3.select('body')
+//     .append('p')
+//     .text(selectValue + ' is the last selected option.');
+let year = d3.select("#yearslider").select('input').property('value');
+mapObject.updateMap(year);
+let current_selection = document.getElementById("rectg").getAttribute("class");
+lineObject.drawPlot(current_selection);
+heatmapObject.updateHeatMap();
+};
 
-        d3.select('#select')
-			.on("change", function () {
-				let sect = document.getElementById("select");
-                let current_selection = sect.options[sect.selectedIndex].value;
-                
-       
+
+    function onDropdownChange() {
         lineObject.drawPlot("WLD",data);
         heatmapObject.plotheat_country(data);
 
-    });   
+    ;   
     }
 
 
@@ -76,7 +77,7 @@ loadData().then(data => {
     });
 
       let sunburstObject = new Sunburst();
-    sunburstObject.drawSunburst(lineObject,data);
+    sunburstObject.drawSunburst(lineObject);
 
     let heatmapObject = new heatmap(data);
 heatmapObject.drawLegend();
@@ -106,7 +107,7 @@ heatmapObject.plotheat_country(data);
         else{
             that.activeCountry= null;
             worldMap.clearHighlight();
-            
+            //infoBox.clearHighlight();
          
         
         }
@@ -156,3 +157,4 @@ async function loadData() {
 
             };
         }
+

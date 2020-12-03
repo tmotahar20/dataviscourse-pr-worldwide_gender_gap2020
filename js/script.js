@@ -35,16 +35,6 @@ let options = select
     .append('option')
     .text(function (d) { return d; });
 
-function onDropdownChange() {
-// d3.select('body')
-//     .append('p')
-//     .text(selectValue + ' is the last selected option.');
-let year = d3.select("#yearslider").select('input').property('value');
-mapObject.updateMap(year);
-let current_selection = document.getElementById("rectg").getAttribute("class");
-lineObject.drawPlot(current_selection);
-heatmapObject.updateHeatMap();
-};
 
 
     function onDropdownChange() {

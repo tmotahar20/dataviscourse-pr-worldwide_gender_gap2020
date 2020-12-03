@@ -167,38 +167,8 @@ class lineChart{
 			.attr("id","rectg")
 			.style("fill",function(d,i){
 				
-				console.log("line");
 				
-				if(reg=="SAS")
-				return "#ffffcc";
-				
-				if(reg=="SSF")
-				return "#c7e9b4";
-
-				if(reg=="MEA")
-				return "#7fcdbb";
-				
-				if(reg=="NAC")
-				return "#41b6c4";
-
-				
-				
-				if(reg=="EAS")
-				return "#225ea8";
-
-
-
-				if(reg=="WLD")
-				return "lightgrey";
-
-				
-
-				else
 				return "steelblue";
-
-				
-
-
 
 
 			})

@@ -15,7 +15,6 @@ class Sunburst{
 
 	  let data = this.jsonData();
 
-	  console.log(allData);
       var tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
 
 		  let svg = d3.select("#sunburst").append("svg").attr("width", width).attr("height", height);
@@ -172,7 +171,6 @@ class Sunburst{
 			          let new_lineObject = new lineChart(data);
 					  new_lineObj.drawPlot(class_id, data);
 
-					  console.log("latest");
 			console.log(class_id);	  
 		   
               

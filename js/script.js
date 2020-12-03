@@ -5,8 +5,12 @@ loadData().then(data => {
 
     let dropdown_data = ["GDP","Education(%)" ,"Employment(%)", "Labour Force(%)"];
 
+    
+
     let lineObject = new lineChart(data);
     lineObject.drawPlot("WLD",data);
+
+    console.log(data);
     
     function updateCountry() {
 
@@ -26,8 +30,8 @@ loadData().then(data => {
 
     let select = d3.select('#dropdown')
     .append('select')
-    .attr('id','select');
-    
+    .attr('id','select')
+    .on('change',onDropdownChange);
 
 let options = select
     .selectAll('option')
@@ -37,16 +41,23 @@ let options = select
 
 
 
-    
-        
+    function onDropdownChange() {
+        lineObject.drawPlot("WLD",data);
+        //heatmapObject.plotheat_country(data);
 
       
-    
+    }
 
 
 
     
-    
+    function updateYear(year) {
+
+
+        that.activeYear = year;
+       
+    }
+   
     const worldMap = new Map(data, updateCountry);
     //const infoBox = new InfoBox(data);
     
@@ -62,9 +73,11 @@ let options = select
       let sunburstObject = new Sunburst();
     sunburstObject.drawSunburst(lineObject);
 
-    let heatmapObject = new heatmap(data);
-    heatmapObject.drawLegend();
-    heatmapObject.plotheat_country(data);
+    //let heatmapObject = new heatmap(data);
+
+//heatmapObject.plotheat_country(data);
+
+
     
     document.addEventListener("click", function (e) {
         

@@ -1,7 +1,5 @@
 
 
-
-
 class CountryData {
    
     constructor(type, id, properties, geometry, region, income, wo_lit, wo_wag, wo_lab) {
@@ -49,6 +47,8 @@ class Map {
 
 
         this.updateCountry = updateCountry;
+
+        this.data=data;
         
     }
 
@@ -80,7 +80,12 @@ class Map {
             return new CountryData(d.type, d.id, d.properties, d.geometry, regiondata, income, wo_lit, wo_wag, wo_lab);
         });
 
-        
+        let heatmapObject = new heatmap(that.data);
+        heatmapObject.drawLegend();
+        heatmapObject.plotheat_country(that.data);
+
+        let lineObject = new lineChart(that.data);
+        lineObject.drawPlot("WLD",that.data);
 
         let path = d3.geoPath()
             .projection(this.projection);
@@ -142,9 +147,7 @@ class Map {
             
         
 
-        //let selectValue = d3.select('select').property('value');
-
-       
+           
                        
                      
            let colorsScheme=["#08519c","#3182bd", "#6baed6", "#bdd7e7", "#DCDCDC"];
@@ -160,6 +163,9 @@ class Map {
                 //let sect = document.getElementById("select");
                 
                 
+                
+                heatmapObject.plotheat_country(that.data);
+                lineObject.drawPlot("WLD",that.data);
                 
                 
                 

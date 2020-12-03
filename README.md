@@ -4,7 +4,7 @@ Project Website : https://tmotahar20.github.io/dataviscourse-pr-worldwide_gender
 
 Process Book : https://github.com/tmotahar20/dataviscourse-pr-worldwide_gender_gap2020/blob/main/Project%20Milestone.pdf 
 
-Project Video :
+Project Video : https://www.youtube.com/watch?v=d49tIraMJOQ
 
 Worldwide Gender Gap
 

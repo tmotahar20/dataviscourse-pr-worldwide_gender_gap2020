@@ -41,7 +41,7 @@ function onDropdownChange() {
 //     .text(selectValue + ' is the last selected option.');
 let year = d3.select("#yearslider").select('input').property('value');
 mapObject.updateMap(year);
-let current_selection = document.getElementById("rectg").getAttribute("class");
+let current_selection = document.getElementById("#rectg").getAttribute("class");
 lineObject.drawPlot(current_selection);
 heatmapObject.updateHeatMap();
 };
@@ -107,7 +107,7 @@ heatmapObject.plotheat_country(data);
         else{
             that.activeCountry= null;
             worldMap.clearHighlight();
-            //infoBox.clearHighlight();
+            
          
         
         }

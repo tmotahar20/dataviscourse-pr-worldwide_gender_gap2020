@@ -138,7 +138,12 @@ class Map {
                       .style("alignment-baseline", "middle");
             
             
-             
+        
+
+        //let selectValue = d3.select('select').property('value');
+
+       
+                       
                      
            let colorsScheme=["#08519c","#3182bd", "#6baed6", "#bdd7e7", "#DCDCDC"];
 
@@ -150,6 +155,8 @@ class Map {
                
 				let sect = document.getElementById("select");
                 current_selection = sect.options[sect.selectedIndex].value;
+
+                
                 
                 if(current_selection==="Education(%)"){
 

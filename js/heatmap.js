@@ -173,8 +173,6 @@ class heatmap{
 
       }
 
-
-
       findIndicator(){
         try{
         let selectValue = d3.select('select').property('value');
@@ -186,7 +184,7 @@ class heatmap{
           case "Labour Force(%)":
             return "labour";
         }
-      }//try
+      }
       
         catch(err){
           return "literacy";

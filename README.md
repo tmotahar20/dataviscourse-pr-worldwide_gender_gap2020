@@ -1,7 +1,9 @@
 Github Repo: # dataviscourse-pr-worldwide_gender_gap2020
 
 Project Website : https://tmotahar20.github.io/dataviscourse-pr-worldwide_gender_gap2020/
+
 Process Book : https://github.com/tmotahar20/dataviscourse-pr-worldwide_gender_gap2020/blob/main/Project%20Milestone.pdf 
+
 Project Video :
 
 Worldwide Gender Gap

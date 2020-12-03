@@ -148,7 +148,7 @@ class Map {
            let colorsScheme=["#08519c","#3182bd", "#6baed6", "#bdd7e7", "#DCDCDC"];
 
 
-           d3.select('#select')
+           d3.select('select')
 			.on("change", function () {
                 d3.select("#max-info").selectAll('text').remove();
                 d3.select("#info").selectAll('text').remove();

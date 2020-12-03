@@ -27,6 +27,7 @@ loadData().then(data => {
     let select = d3.select('#dropdown')
     .append('select')
     .attr('class','select')
+    .attr("id", "ind_sel")
     .on('change',onDropdownChange);
 
 let options = select
@@ -36,10 +37,8 @@ let options = select
     .text(function (d) { return d; });
 
 function onDropdownChange() {
-// d3.select('body')
-//     .append('p')
-//     .text(selectValue + ' is the last selected option.');
-let year = d3.select("#yearslider").select('input').property('value');
+
+
 mapObject.updateMap(year);
 let current_selection = document.getElementById("#rectg").getAttribute("class");
 lineObject.drawPlot(current_selection);

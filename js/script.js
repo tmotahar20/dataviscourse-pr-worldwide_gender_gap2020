@@ -26,8 +26,8 @@ loadData().then(data => {
 
     let select = d3.select('#dropdown')
     .append('select')
-    .attr('class','select')
-    .on('change',onDropdownChange);
+    .attr('id','select');
+    
 
 let options = select
     .selectAll('option')
@@ -37,23 +37,16 @@ let options = select
 
 
 
-    function onDropdownChange() {
-        lineObject.drawPlot("WLD",data);
-        heatmapObject.plotheat_country(data);
+    
+        
 
       
-    }
+    
 
 
 
     
-    function updateYear(year) {
-
-
-        that.activeYear = year;
-       
-    }
-   
+    
     const worldMap = new Map(data, updateCountry);
     //const infoBox = new InfoBox(data);
     
@@ -70,8 +63,8 @@ let options = select
     sunburstObject.drawSunburst(lineObject);
 
     let heatmapObject = new heatmap(data);
-heatmapObject.drawLegend();
-heatmapObject.plotheat_country(data);
+    heatmapObject.drawLegend();
+    heatmapObject.plotheat_country(data);
     
     document.addEventListener("click", function (e) {
         
@@ -147,4 +140,3 @@ async function loadData() {
 
             };
         }
-

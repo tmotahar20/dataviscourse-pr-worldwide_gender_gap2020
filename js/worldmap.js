@@ -1,8 +1,5 @@
 
 
-
-
-
 class CountryData {
    
     constructor(type, id, properties, geometry, region, income, wo_lit, wo_wag, wo_lab) {
@@ -55,7 +52,7 @@ class Map {
 
     drawMap(world) {
 
-        //let current_selection= 'gdp';
+        let current_selection;
 
         
 
@@ -156,11 +153,11 @@ class Map {
                 d3.select("#max-info").selectAll('text').remove();
                 d3.select("#info").selectAll('text').remove();
 
-                let current_selection = that.findIndicator();
+                current_selection = that.findIndicator();
                
                 //let sect = document.getElementById("select");
                 
-                console.log(current_selection);
+                
                 
                 
                 
@@ -189,7 +186,7 @@ class Map {
             
             }
 
-             else if(current_selection==='employment'){
+              if(current_selection=='employment'){
 
                
                     
@@ -212,7 +209,7 @@ class Map {
             
             }
 
-            else if(current_selection==='labour'){
+             if(current_selection=='labour'){
 
                 d3.select("#max-info").selectAll('text').remove();
                 
@@ -262,9 +259,11 @@ class Map {
 
          
 
-                console.log(current_selection);     
+          
+        
         
 
+        
         countries.on('click', function(d) {
             d3.select("#info").selectAll('text').remove();
             d3.select("#max-info").selectAll('text').remove();
@@ -274,12 +273,16 @@ class Map {
             //that.info_clearHighlight();
             that.updateCountry(countryID);
 
-           
+            current_selection = that.findIndicator();
+
+            console.log(current_selection); 
             
            let countryName; 
            let infr_women;
            let infr_men;
            let infr_gap;
+
+                
 
            
            if(current_selection ==='gdp'){
@@ -430,7 +433,7 @@ class Map {
                     let inf= d3.select("#info")
                               .append('text')
                               .attr('style', 'color:black')
-                              .text(d => 'In ' + countryName +" , women in "+ current_selection+ "  is  : " 
+                              .text(d => 'In ' + countryName +" , women "+ current_selection + "  is  : " 
                                 + infr_women + ", which is "+ infr_gap + "  % less than men");
     
                     }
@@ -450,7 +453,7 @@ class Map {
                                     .append('text')
                                     .attr('style', 'color:black')
                                     //.text("Hi")
-                                    .text(d => 'Maximum Women wages is in :' + max_country +" :  "+ d3.format(",.2f")(max)+ " %"  )
+                                    .text(d => 'Maximum Women Employment is in :' + max_country +" :  "+ d3.format(",.2f")(max)+ " %"  )
                                     .attr("font-size", "30px");
             }
 
